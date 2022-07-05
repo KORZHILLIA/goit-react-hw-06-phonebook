@@ -8,15 +8,11 @@ const save = (key, item) => {
 };
 
 const load = key => {
-  try {
-    const item = JSON.parse(localStorage.getItem(key));
-    if (item && item.length) {
-      return item;
-    }
-    return false;
-  } catch (error) {
-    alert(error.message);
+  const item = JSON.parse(localStorage.getItem(key));
+  if (item && (item.length || Object.keys(item).length)) {
+    return item;
   }
+  return false;
 };
 
 export { save, load };

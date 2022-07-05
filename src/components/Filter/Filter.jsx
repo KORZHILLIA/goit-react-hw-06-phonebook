@@ -1,20 +1,17 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
 
-class Filter extends Component {
-  inputChangeHandler = event => {
-    const value = event.target.value;
-    this.props.onChange(value);
+const Filter = ({ onChange }) => {
+  const inputChangeHandler = ({ target }) => {
+    onChange(target.value);
   };
-  render() {
-    return (
-      <>
-        <h3>Find contacts by name</h3>
-        <input type="text" onChange={this.inputChangeHandler} />
-      </>
-    );
-  }
-}
+
+  return (
+    <>
+      <h3>Find contacts by name</h3>
+      <input type="text" onChange={inputChangeHandler} />
+    </>
+  );
+};
 
 Filter.defaultProps = {
   onChange: () => {},
@@ -23,4 +20,5 @@ Filter.defaultProps = {
 Filter.propTypes = {
   onChange: PropTypes.func,
 };
+
 export default Filter;
