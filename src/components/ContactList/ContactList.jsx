@@ -12,6 +12,7 @@ const ContactList = ({ contacts, deleteClickHandler }) => {
       number={number}
     />
   ));
+
   return <ul className={styles.list}>{contactsList}</ul>;
 };
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { nanoid } from 'nanoid';
 import { save, load } from '../shared/services/local-storage';
 import ContactForm from './ContactForm';
@@ -13,33 +13,44 @@ export const App = () => {
 
   useEffect(() => {
     if (isFirstRender.current) {
-      const localStorageContacts = load('contacts');
-      if (localStorageContacts) {
-        setContacts(localStorageContacts);
+      try {
+        const localStorageContacts = load('contacts');
+        if (localStorageContacts) {
+          setContacts(localStorageContacts);
+        }
+      } catch (error) {
+        alert(error.message);
       }
       isFirstRender.current = false;
     } else {
-      save('contacts', contacts);
+      try {
+        save('contacts', contacts);
+      } catch (error) {
+        alert(error.message);
+      }
     }
   }, [contacts]);
 
-  function addContact(name, number) {
-    const newContact = {
-      id: nanoid(),
-      name,
-      number,
-    };
-    setContacts(prevState => {
-      const requiredIdx = prevState.findIndex(
-        contact => contact.name === newContact.name
-      );
-      if (requiredIdx === -1) {
-        return [...prevState, newContact];
-      }
-      alert(`${newContact.name} is already in contacts`);
-      return prevState;
-    });
-  }
+  const addContact = useCallback(
+    ({ name, number }) => {
+      const newContact = {
+        id: nanoid(),
+        name,
+        number,
+      };
+      setContacts(prevState => {
+        const requiredIdx = prevState.findIndex(
+          contact => contact.name === newContact.name
+        );
+        if (requiredIdx === -1) {
+          return [...prevState, newContact];
+        }
+        alert(`${newContact.name} is already in contacts`);
+        return prevState;
+      });
+    },
+    [setContacts]
+  );
 
   function deleteClickHandler(id) {
     setContacts(prevState => prevState.filter(contact => contact.id !== id));

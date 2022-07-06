@@ -1,26 +1,15 @@
+import { memo } from 'react';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+// import { useState } from 'react';
+import useContactForm from 'shared/services/hooks/useContactForm';
 import styles from './ContactForm.module.css';
 
 const ContactForm = ({ onSubmit }) => {
-  const [state, setState] = useState({
+  const [state, inputChangeHandler, handleSubmit] = useContactForm(onSubmit, {
     name: '',
     number: '',
   });
 
-  const inputChangeHandler = ({ target }) => {
-    const { name, value } = target;
-    setState(prevState => ({ ...prevState, [name]: value }));
-  };
-
-  const reset = () => setState({ name: '', number: '' });
-
-  const handleSubmit = event => {
-    event.preventDefault();
-    const { name, number } = state;
-    onSubmit(name, number);
-    reset();
-  };
   const { name, number } = state;
 
   return (
@@ -66,4 +55,4 @@ ContactForm.propTypes = {
   onSubmit: PropTypes.func,
 };
 
-export default ContactForm;
+export default memo(ContactForm);

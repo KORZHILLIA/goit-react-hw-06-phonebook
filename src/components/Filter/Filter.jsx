@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import PropTypes from 'prop-types';
 
 const Filter = ({ onChange }) => {
@@ -21,4 +22,4 @@ Filter.propTypes = {
   onChange: PropTypes.func,
 };
 
-export default Filter;
+export default memo(Filter);
