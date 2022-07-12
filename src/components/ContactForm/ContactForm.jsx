@@ -1,19 +1,21 @@
 import { memo } from 'react';
 import PropTypes from 'prop-types';
-// import { useState } from 'react';
 import useContactForm from 'shared/services/hooks/useContactForm';
 import styles from './ContactForm.module.css';
 
 const ContactForm = ({ onSubmit }) => {
-  const [state, inputChangeHandler, handleSubmit] = useContactForm(onSubmit, {
-    name: '',
-    number: '',
-  });
+  const [state, inputChangeHandler, submitHandler] = useContactForm(
+    {
+      name: '',
+      number: '',
+    },
+    onSubmit
+  );
 
   const { name, number } = state;
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={submitHandler}>
       <label className={styles.label}>
         <input
           className={styles.input}

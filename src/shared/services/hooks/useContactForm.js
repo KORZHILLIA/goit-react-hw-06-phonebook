@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function useContactForm(submitFunc, initialState) {
+export default function useContactForm(initialState, submitFunction) {
   const [formState, setFormState] = useState(initialState);
 
   const inputChangeHandler = ({ target }) => {
@@ -10,11 +10,11 @@ export default function useContactForm(submitFunc, initialState) {
 
   const reset = () => setFormState(initialState);
 
-  const handleSubmit = event => {
+  const submitHandler = event => {
     event.preventDefault();
-    submitFunc(formState);
+    submitFunction(formState);
     reset();
   };
 
-  return [formState, inputChangeHandler, handleSubmit];
+  return [formState, inputChangeHandler, submitHandler];
 }
