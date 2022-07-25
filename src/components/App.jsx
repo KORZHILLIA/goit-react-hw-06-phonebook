@@ -11,7 +11,15 @@ export const App = () => {
   const filteredContacts = useSelector(getFilteredContacts);
 
   function addContactToGlobalStore(contact) {
-    dispatch(addContact(contact));
+    const requiredIdx = filteredContacts.findIndex(
+      contactInDB => contactInDB.name === contact.name
+    );
+    if (requiredIdx === -1) {
+      dispatch(addContact(contact));
+      return;
+    }
+    alert(`${contact.name} is in contacts already`);
+    return;
   }
 
   function deleteClickHandler(id) {
